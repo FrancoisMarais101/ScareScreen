@@ -1,0 +1,19 @@
+<h2>My Videos</h2>
+
+<div>
+  <label for="new-video">Video name: </label>
+  <input id="new-video" #videoName />
+
+
+
+</div>
+
+
+<ul class="videos">
+  <li *ngFor="let video of videos">
+    <a routerLink="/detail/{{video.id}}">
+      <span class="badge">{{video.id}}</span> {{video.name}}
+      <p> {{video.description}} </p>
+    </a>
+  </li>
+</ul>

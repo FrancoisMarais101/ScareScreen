@@ -1,0 +1,141 @@
+/* VideoComponent's private CSS styles */
+.videos {
+    margin: 0 0 2em 0;
+    list-style-type: none;
+    padding: 0;
+    width: 15em;
+    background-color: #272727; /* darker background */
+  }
+  
+  .videos li {
+    margin: .5em;
+    padding: .3em;
+    height: 4.5em;
+  }
+
+  .videos li:hover {
+    background-color: #353535; /* darker background */
+  }
+
+  .videos li.selected:hover {
+    background-color: #1C1C1C; /* darker background */
+    color: white;
+  }
+  
+  .videos a {
+    text-decoration: none;
+    color: #C0C0C0; /* lighter text color */
+  }
+
+  .videos .badge {
+    font-size: small;
+    color: white;
+    padding: 0.8em 0.7em 0 0.7em;
+    background-color: #333333; /* darker badge */
+    line-height: 1em;
+    position: relative;
+    left: -1px;
+    top: -4px;
+    height: 1.8em;
+    min-width: 16px;
+    text-align: right;
+    margin-right: .8em;
+    border-radius: 4px 0 0 4px;
+  }
+  
+  .videos .badge:empty {
+    display: none;
+  }
+  
+
+  input {
+    display: block;
+    width: 100%;
+    padding: .5rem;
+    margin: 1rem 0;
+    box-sizing: border-box;
+    background-color: #353535; /* darker input field */
+    color: #C0C0C0; /* lighter text color */
+  }
+  
+  .videos li {
+    position: relative;
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.5); /* semi-transparent background */
+    color: #C0C0C0; /* lighter text color */
+  }
+
+  .videos li.selected {
+    background-color: rgba(0, 0, 0, 0.7); /* darker background */
+    color: white;
+  }
+  
+  .videos li:hover {
+    left: .1em;
+    background-color: rgba(0, 0, 0, 0.7); /* darker when hovering */
+  }
+  
+  .videos a {
+    color: #C0C0C0;
+    text-decoration: none;
+    margin: .5em;
+    padding: .3em 0;
+    height: 1.6em;
+    border-radius: 4px;
+    display: block;
+    width: 100%;
+  }
+  
+  .videos a:hover {
+    color: #808080;
+    background-color: rgba(0, 0, 0, 0.7); /* darker when hovering */
+  }
+  
+  .videos .badge {
+    display: inline-block;
+    font-size: small;
+    color: white;
+    padding: 0.8em 0.7em 0 0.7em;
+    background-color: #333333; /* darker badge */
+    line-height: 1em;
+    position: relative;
+    left: -1px;
+    top: -4px;
+    height: 1.8em;
+    min-width: 16px;
+    text-align: right;
+    margin-right: .8em;
+    border-radius: 4px 0 0 4px;
+  }
+  
+  .add-button {
+   padding: .5rem 1.5rem;
+   font-size: 1rem;
+   margin-bottom: 2rem;
+   background-color: #1C1C1C; /* darker button */
+   color: #C0C0C0; /* lighter text color */
+  }
+  
+  .add-button:hover {
+    background-color: #525252;
+    color: #FAFAFA;
+  }
+  
+  button.delete {
+    position: absolute;
+    left: 210px;
+    top: 5px;
+    background-color: #1C1C1C; /* darker button */
+    color: #FAFAFA; /* lighter text color */
+    font-size: 1.1rem;
+    margin: 0;
+    padding: 1px 10px 3px 10px;
+  }
+  
+  button.delete:hover {
+    background-color: #FAFAFA;
+    color: #1C1C1C;
+  }
+
+
+  
