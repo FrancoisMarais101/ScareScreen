@@ -1,4 +1,34 @@
-# app.py
+"""
+app.py
+------
+
+A Flask application module for initializing and running a Flask web service.
+
+This module contains the Flask application factory `create_app` which sets up the application with necessary configurations, initializes the database connection using Flask-SQLAlchemy, and defines the basic route for the application. The database models are imported to ensure they are registered with SQLAlchemy.
+
+It fetches database configurations from the environment variables and sets up the SQLAlchemy connection to a PostgreSQL database.
+
+The application defines a single route, the home page, which simply returns a "Hello, World!" message.
+
+Attributes:
+    db_user (str): Database username fetched from environment variables.
+    db_pass (str): Database password fetched from environment variables.
+    db_host (str): Database host fetched from environment variables.
+    db_port (str): Database port fetched from environment variables.
+    db_name (str): Database name fetched from environment variables.
+    database_url (str): Full database connection URL constructed from the above credentials.
+    app (Flask): The Flask application instance.
+    flask_app (Flask): The Flask application instance when the script is run directly.
+
+Functions:
+    create_app(): Flask application factory function for setting up and returning a Flask app.
+
+Usage:
+    Run this file directly using Python to start the Flask application server:
+    ```
+    python app.py
+    ```
+"""
 from os import environ
 from flask import Flask
 from extensions import db

@@ -1,4 +1,10 @@
-# init_db.py
+"""
+init_db.py
+------
+
+A Python script to create the database tables.
+
+"""
 from app import create_app
 from extensions import db
 
