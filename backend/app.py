@@ -42,6 +42,26 @@ from models.database import *  # Import models to ensure they are registered wit
 
 
 def create_app():
+    """
+    Creates and configures an instance of the Flask application.
+
+    The Flask application is configured with the necessary database settings and routes. It fetches
+    database connection parameters from the environment, constructs a database URL, and initializes the
+    SQLAlchemy plugin with this app instance. It defines a simple route as an example.
+
+    Returns:
+        app: A Flask application instance with routes and configurations set up.
+
+    Environment Variables:
+        - db_user: Database username
+        - db_pass: Database password
+        - db_host: Database host address
+        - db_port: Database port number
+        - db_name: Database name
+
+    Note:
+        Ensure that all required environment variables are set before calling this function.
+    """
     app = Flask(__name__)
 
     # Fetching the Database connection parameters from the environment
