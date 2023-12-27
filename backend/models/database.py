@@ -3,7 +3,8 @@ models/database.py
 ------------------
 
 This module defines the database models using SQLAlchemy for an application. 
-It includes classes representing entities like movies, trailers, users, and other related entities in a media application context. 
+It includes classes representing entities like movies, trailers, users, and other related entities in a 
+media application context. 
 Each class corresponds to a table in the database with the specified columns and relationships.
 
 Classes:
@@ -20,6 +21,7 @@ Classes:
 from extensions import db
 
 
+# pylint: disable=too-few-public-methods
 class Movie(db.Model):
     """
     A class representing the 'movies' table in the database.
@@ -52,6 +54,7 @@ class Movie(db.Model):
     trailers = db.relationship("Trailer", back_populates="movie")
 
 
+# pylint: disable=too-few-public-methods
 class Trailer(db.Model):
     """
     A class representing the 'trailers' table in the database.
@@ -80,6 +83,7 @@ class Trailer(db.Model):
     platform_trailers = db.relationship("PlatformTrailer", back_populates="trailer")
 
 
+# pylint: disable=too-few-public-methods
 class StreamingPlatform(db.Model):
     """
     Represents streaming platforms, detailing the platform name and URL.
@@ -100,6 +104,7 @@ class StreamingPlatform(db.Model):
     platform_trailers = db.relationship("PlatformTrailer", back_populates="platform")
 
 
+# pylint: disable=too-few-public-methods
 class PlatformTrailer(db.Model):
     """
     Represents the association between trailers and the platforms they are available on.
@@ -122,6 +127,7 @@ class PlatformTrailer(db.Model):
     platform = db.relationship("StreamingPlatform", back_populates="platform_trailers")
 
 
+# pylint: disable=too-few-public-methods
 class User(db.Model):
     """
     Represents users, including their credentials and personal information.
@@ -146,6 +152,7 @@ class User(db.Model):
     reviews = db.relationship("Review", back_populates="user")
 
 
+# pylint: disable=too-few-public-methods
 class Review(db.Model):
     """
     Represents reviews for trailers, including ratings and text.
@@ -172,6 +179,7 @@ class Review(db.Model):
     trailer = db.relationship("Trailer")
 
 
+# pylint: disable=too-few-public-methods
 class Recommendation(db.Model):
     """
     Represents recommendations of movies to users.
@@ -196,6 +204,7 @@ class Recommendation(db.Model):
     movie = db.relationship("Movie")
 
 
+# pylint: disable=too-few-public-methods
 class Notification(db.Model):
     """
     Represents notifications sent to users.
@@ -218,6 +227,7 @@ class Notification(db.Model):
     user = db.relationship("User")
 
 
+# pylint: disable=too-few-public-methods
 class Watchlist(db.Model):
     """
     Represents users' watchlists, detailing movies added for future viewing.
