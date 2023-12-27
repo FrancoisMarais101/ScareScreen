@@ -4,11 +4,16 @@ app.py
 
 A Flask application module for initializing and running a Flask web service.
 
-This module contains the Flask application factory `create_app` which sets up the application with necessary configurations, initializes the database connection using Flask-SQLAlchemy, and defines the basic route for the application. The database models are imported to ensure they are registered with SQLAlchemy.
+This module contains the Flask application factory `create_app` which sets 
+up the application with necessary configurations, initializes the database 
+connection using Flask-SQLAlchemy, and defines the basic route for the application. 
+The database models are imported to ensure they are registered with SQLAlchemy.
 
-It fetches database configurations from the environment variables and sets up the SQLAlchemy connection to a PostgreSQL database.
+It fetches database configurations from the environment variables and sets up 
+the SQLAlchemy connection to a PostgreSQL database.
 
-The application defines a single route, the home page, which simply returns a "Hello, World!" message.
+The application defines a single route, the home page, which simply 
+returns a "Hello, World!" message.
 
 Attributes:
     db_user (str): Database username fetched from environment variables.

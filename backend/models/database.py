@@ -3,9 +3,11 @@ models/database.py
 ------------------
 
 This module defines the database models using SQLAlchemy for an application. 
-It includes classes representing entities like movies, trailers, users, and other related entities in a 
-media application context. 
-Each class corresponds to a table in the database with the specified columns and relationships.
+It includes classes representing entities like movies, trailers, users, and 
+other related entities in a media application context. 
+
+Each class corresponds to a table in the database with the specified columns 
+and relationships.
 
 Classes:
     Movie: Represents movies with attributes like title, director, and cast.
