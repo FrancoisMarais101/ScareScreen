@@ -38,15 +38,26 @@ from os import environ
 from flask import Flask
 from extensions import db
 
-from models.database import *  # Import models to ensure they are registered with SQLAlchemy
+from models.database import (
+    Movie,
+    Trailer,
+    StreamingPlatform,
+    PlatformTrailer,
+    User,
+    Review,
+    Recommendation,
+    Notification,
+    Watchlist,
+)  # Import models to ensure they are registered with SQLAlchemy
 
 
 def create_app():
     """
     Creates and configures an instance of the Flask application.
 
-    The Flask application is configured with the necessary database settings and routes. It fetches
-    database connection parameters from the environment, constructs a database URL, and initializes the
+    The Flask application is configured with the necessary database
+    settings and routes. It fetches database connection parameters
+    from the environment, constructs a database URL, and initializes the
     SQLAlchemy plugin with this app instance. It defines a simple route as an example.
 
     Returns:
