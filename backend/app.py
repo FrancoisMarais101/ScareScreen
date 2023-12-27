@@ -38,17 +38,16 @@ from os import environ
 from flask import Flask
 from extensions import db
 
-from models.database import (
-    Movie,
-    Trailer,
-    StreamingPlatform,
-    PlatformTrailer,
-    User,
-    Review,
-    Recommendation,
-    Notification,
-    Watchlist,
-)  # Import models to ensure they are registered with SQLAlchemy
+# Import models to ensure they are registered with SQLAlchemy
+from models.database import Movie  # pylint: disable=unused-import
+from models.database import Trailer  # pylint: disable=unused-import
+from models.database import StreamingPlatform  # pylint: disable=unused-import
+from models.database import PlatformTrailer  # pylint: disable=unused-import
+from models.database import User  # pylint: disable=unused-import
+from models.database import Review  # pylint: disable=unused-import
+from models.database import Recommendation  # pylint: disable=unused-import
+from models.database import Notification  # pylint: disable=unused-import
+from models.database import Watchlist  # pylint: disable=unused-import
 
 
 def create_app():
