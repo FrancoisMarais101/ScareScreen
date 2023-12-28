@@ -114,25 +114,14 @@ def create_app():
         )
 
         try:
-            # Attempt to add to the session and commit
             db.session.add(the_witch)
             db.session.commit()
             return jsonify(message="The Witch added successfully"), 201
         except SQLAlchemyError as e:
-            # Handle specific SQLAlchemy errors
             db.session.rollback()
-            return (
-                jsonify(error=str(e.orig)),
-                400 if hasattr(e, "orig") else jsonify(error=str(e)),
-                500,
-            )
-        except HTTPException as e:
-            # Handle specific HTTP errors
-            return jsonify(error=str(e.description)), e.code
-        except Exception as e:
-            # A broad except should be your last resort
-            db.session.rollback()
-            return jsonify(error="An unexpected error occurred"), 500
+            error_info = str(e.__dict__.get("orig", e))  # Safer access to 'orig'
+            return jsonify(error=error_info), 400
+        # Consider catching other specific exceptions you expect might occur
 
     return app
 
