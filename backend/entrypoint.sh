@@ -13,4 +13,5 @@ python /backend/init_db.py
 
 # Start the main application
 echo "Starting the application with Gunicorn..."
-gunicorn "app:create_app()"
+gunicorn --bind 0.0.0.0:8000 "app:create_app()"
+

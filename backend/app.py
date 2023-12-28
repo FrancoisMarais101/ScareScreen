@@ -35,8 +35,9 @@ Usage:
     ```
 """
 from os import environ
-from flask import Flask
+from flask import Flask, request, jsonify
 from extensions import db
+
 
 # Import models to ensure they are registered with SQLAlchemy
 from models.database import Movie  # pylint: disable=unused-import
@@ -95,9 +96,35 @@ def create_app():
     def hello_world():
         return "Hello, World! This is the home page."
 
+    @app.route("/add_the_witch", methods=["POST"])  # Specify POST method here
+    def add_the_witch():
+        # Create an instance of the Movie class with The Witch details
+        the_witch = Movie(
+            title="The Witch",
+            director="Robert Eggers",
+            cast="Anya Taylor-Joy, Ralph Ineson, Kate Dickie, Harvey Scrimshaw",
+            release_date="2015-01-27",  # Use the appropriate date format your DB expects
+            length=92,  # Length in minutes
+            rating=6.9,  # Just an example rating
+            age_restriction=16,  # Just an example age restriction
+            summary="A family in 1630s New England is torn apart by the forces of witchcraft, black magic, and possession.",
+        )
+
+        try:
+            # Add to the session and commit
+            db.session.add(the_witch)
+            db.session.commit()
+            return (
+                jsonify(message="The Witch added successfully"),
+                201,
+            )  # Use jsonify for API response
+        except Exception as e:
+            db.session.rollback()
+            return jsonify(error=str(e)), 400  # Return a JSON error message
+
     return app
 
 
 if __name__ == "__main__":
     flask_app = create_app()
-    flask_app.run(host="0.0.0.0", port=8000)
+    flask_app.run(host="localhost", port=8000)

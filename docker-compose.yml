@@ -21,6 +21,11 @@ services:
     networks:
       - app_network
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     
 
   frontend:
@@ -48,6 +53,15 @@ services:
       - app_network
     restart: unless-stopped
 
+  startup:
+    build:
+      context: .
+      dockerfile: Dockerfile.startup
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - app_network
 
 volumes:
   postgres_data:

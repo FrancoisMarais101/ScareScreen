@@ -1,0 +1,15 @@
+# Use an official Python runtime as a parent image
+FROM python:3.9
+
+# Set the working directory in the container to /app
+WORKDIR /app
+
+# Copy the startup script into the container at /app
+COPY startup.py .
+
+# If your startup script requires any additional dependencies, install them
+# For example, if you need the 'requests' library, uncomment the next line
+RUN pip install requests
+
+# Command to run the startup script
+CMD ["python", "./startup.py"]
