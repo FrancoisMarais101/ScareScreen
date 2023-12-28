@@ -35,7 +35,7 @@ Usage:
     ```
 """
 from os import environ
-from flask import Flask, request, jsonify
+from flask import Flask, jsonify
 from extensions import db
 
 
@@ -107,7 +107,8 @@ def create_app():
             length=92,  # Length in minutes
             rating=6.9,  # Just an example rating
             age_restriction=16,  # Just an example age restriction
-            summary="A family in 1630s New England is torn apart by the forces of witchcraft, black magic, and possession.",
+            summary="A family in 1630s New England is torn apart by the forces of witchcraft, \
+            black magic, and possession.",
         )
 
         try:

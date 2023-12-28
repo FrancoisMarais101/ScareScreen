@@ -6,8 +6,8 @@ It waits for the Flask backend service to become available and then makes
 a POST request to the /add_the_witch route to add a movie to the database.
 """
 
-import requests
 import time
+import requests
 
 
 def wait_for_server(url, timeout=60):
