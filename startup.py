@@ -21,7 +21,7 @@ def wait_for_server(url, timeout=60):
     - timeout (int): Maximum time in seconds to wait for the server.
 
     Raises:
-    - Exception: If the server is not up within the timeout period.
+    - TimeoutError: If the server is not up within the timeout period.
     """
     start_time = time.time()
     request_timeout = 5  # Timeout for each individual request attempt
@@ -39,7 +39,7 @@ def wait_for_server(url, timeout=60):
             print(f"An error occurred: {e}.")
 
         if time.time() - start_time > timeout:
-            raise Exception(f"Server did not start within {timeout} seconds.")
+            raise TimeoutError(f"Server did not start within {timeout} seconds.")
 
         time.sleep(1)  # Wait a second before retrying
 

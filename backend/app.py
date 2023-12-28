@@ -36,6 +36,8 @@ Usage:
 """
 from os import environ
 from flask import Flask, jsonify
+from sqlalchemy.exc import SQLAlchemyError
+from werkzeug.exceptions import HTTPException
 from extensions import db
 
 
@@ -96,7 +98,7 @@ def create_app():
     def hello_world():
         return "Hello, World! This is the home page."
 
-    @app.route("/add_the_witch", methods=["POST"])  # Specify POST method here
+    @app.route("/add_the_witch", methods=["POST"])
     def add_the_witch():
         # Create an instance of the Movie class with The Witch details
         the_witch = Movie(
@@ -112,16 +114,25 @@ def create_app():
         )
 
         try:
-            # Add to the session and commit
+            # Attempt to add to the session and commit
             db.session.add(the_witch)
             db.session.commit()
-            return (
-                jsonify(message="The Witch added successfully"),
-                201,
-            )  # Use jsonify for API response
-        except Exception as e:
+            return jsonify(message="The Witch added successfully"), 201
+        except SQLAlchemyError as e:
+            # Handle specific SQLAlchemy errors
             db.session.rollback()
-            return jsonify(error=str(e)), 400  # Return a JSON error message
+            return (
+                jsonify(error=str(e.orig)),
+                400 if hasattr(e, "orig") else jsonify(error=str(e)),
+                500,
+            )
+        except HTTPException as e:
+            # Handle specific HTTP errors
+            return jsonify(error=str(e.description)), e.code
+        except Exception as e:
+            # A broad except should be your last resort
+            db.session.rollback()
+            return jsonify(error="An unexpected error occurred"), 500
 
     return app
 
