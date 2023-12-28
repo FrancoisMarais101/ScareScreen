@@ -37,7 +37,6 @@ Usage:
 from os import environ
 from flask import Flask, jsonify
 from sqlalchemy.exc import SQLAlchemyError
-from werkzeug.exceptions import HTTPException
 from extensions import db
 
 
