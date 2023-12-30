@@ -38,6 +38,7 @@ from os import environ
 from flask import Flask, jsonify
 from sqlalchemy.exc import SQLAlchemyError
 from extensions import db
+from flask_cors import CORS
 
 
 # Import models to ensure they are registered with SQLAlchemy
@@ -76,6 +77,8 @@ def create_app():
     """
     app = Flask(__name__)
 
+    CORS(app)
+
     # Fetching the Database connection parameters from the environment
     db_user = environ.get("db_user")
     db_pass = environ.get("db_pass")
@@ -97,8 +100,55 @@ def create_app():
     def hello_world():
         return "Hello, World! This is the home page."
 
+    @app.route("/api/movies", methods=["GET"])
+    def get_movies():
+        try:
+            movies = Movie.query.all()
+            movies_list = [
+                {
+                    "id": movie.id,
+                    "title": movie.title,
+                    "director": movie.director,
+                    "cast": movie.cast,
+                    "release_date": movie.release_date,
+                    "length": movie.length,
+                    "rating": movie.rating,
+                    "age_restriction": movie.age_restriction,
+                    "summary": movie.summary,
+                }
+                for movie in movies
+            ]
+            return jsonify(movies_list), 200
+        except SQLAlchemyError as e:
+            app.logger.error(f"Error fetching movies: {e}")
+            return jsonify(error="An error occurred fetching movies"), 500
+
     @app.route("/add_the_witch", methods=["POST"])
     def add_the_witch():
+        # Ensuring the session is fresh
+        db.session.rollback()
+
+        # Check for existing StreamingPlatform or create a new one
+        youtube = StreamingPlatform.query.filter_by(name="Youtube").first()
+        if not youtube:
+            youtube = StreamingPlatform(name="Youtube")
+            db.session.add(youtube)
+
+        # Create a Trailer
+        the_witch_trailer = Trailer(
+            url="https://www.youtube.com/watch?v=iQXmlf3Sefg666"
+        )
+        db.session.add(the_witch_trailer)
+
+        # Commit the session to ensure 'youtube' and 'the_witch_trailer' have 'id' populated
+        db.session.commit()
+
+        # Create a PlatformTrailer association
+        the_witch_platform_trailer = PlatformTrailer(
+            trailer_id=the_witch_trailer.id, platform_id=youtube.id
+        )
+        db.session.add(the_witch_platform_trailer)
+
         # Create an instance of the Movie class with The Witch details
         the_witch = Movie(
             title="The Witch",
@@ -120,7 +170,6 @@ def create_app():
             db.session.rollback()
             error_info = str(e.__dict__.get("orig", e))  # Safer access to 'orig'
             return jsonify(error=error_info), 400
-        # Consider catching other specific exceptions you expect might occur
 
     return app
 

@@ -3,8 +3,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
-import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryDataService } from './services/in-memory-data.service';
+// import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
+// import { InMemoryDataService } from './services/in-memory-data.service';
+import { MovieService } from './services/movie.service'; // Ensure this service is named correctly
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -20,15 +21,8 @@ import { VideoDetailComponent } from './videodetail/videodetail.component';
     BrowserModule,
     FormsModule,
     AppRoutingModule,
-    HttpClientModule,
-
-    // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
-    // and returns simulated server responses.
-    // Remove it when a real server is ready to receive requests.
-    HttpClientInMemoryWebApiModule.forRoot(
-      // The forRoot() method takes an InMemoryDataService class that primes the in-memory database.
-      InMemoryDataService, { dataEncapsulation: false }
-    )
+    HttpClientModule
+    // Remove the in-memory web api module to ensure HTTP requests go to your actual backend
   ],
   declarations: [
     AppComponent,
@@ -38,14 +32,9 @@ import { VideoDetailComponent } from './videodetail/videodetail.component';
     MessagesComponent,
     VideoDetailComponent
   ],
-  bootstrap: [ AppComponent ]
+  providers: [
+    MovieService // Make sure your service is listed in the providers array if it's not providedIn: 'root'
+  ],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
-
-
-/*
-Copyright Google LLC. All Rights Reserved.
-Use of this source code is governed by an MIT-style license that
-can be found in the LICENSE file at http://angular.io/license
-*/  // app-routing.module.ts  
-

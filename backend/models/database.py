@@ -21,6 +21,8 @@ Classes:
     Watchlist: Represents a user's watchlist with attributes like date added.
 """
 from extensions import db
+from sqlalchemy.inspection import inspect
+from datetime import datetime
 
 
 # pylint: disable=too-few-public-methods

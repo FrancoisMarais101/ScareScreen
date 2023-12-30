@@ -4,16 +4,12 @@
 <h3>Videos</h3>
 <hr>
 <div class="grid grid-pad">
-  <a *ngFor="let video of videos" class="col-2-4">
-    <a href="{{video.url}}" target="_blank">
+  <a *ngFor="let movie of movies" class="col-2-4">
+    <!-- <a href="{{video.url}}" target="_blank">
       <img src="{{video.thumbnail}}" alt="{{video.name}}">
-    </a>
+    </a> -->
     <div class="module video">
-      <h4>{{video.name}}</h4>
-      <p>{{video.description}}</p>
+      <h3>{{ movie.title }}</h3>
     </div>
   </a>
 </div>
-
-
-
