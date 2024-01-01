@@ -75,6 +75,7 @@ def main():
 
     # URL for adding the movie
     add_movie_url = f"{flask_url}/add_the_witch"
+    # add_movie_url = f"{flask_url}/search_trailers"
 
     # Make the POST request to add the movie
     result = add_movie(add_movie_url)

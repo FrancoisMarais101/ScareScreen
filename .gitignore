@@ -81,6 +81,7 @@
 
 # # dotenv
 .env
+credentials.json
 
 # # virtualenv
 # venv/

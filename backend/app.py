@@ -35,10 +35,13 @@ Usage:
     ```
 """
 from os import environ
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from sqlalchemy.exc import SQLAlchemyError
 from extensions import db
 from flask_cors import CORS
+import requests
+from googleapiclient.discovery import build
+import datetime
 
 
 # Import models to ensure they are registered with SQLAlchemy
@@ -85,6 +88,7 @@ def create_app():
     db_host = environ.get("db_host")
     db_port = environ.get("db_port")
     db_name = environ.get("db_name")
+    youtube_api_key = environ.get("youtube_api_key")
 
     # Creating the SQLAlchemy engine
     database_url = f"postgresql://{db_user}:{db_pass}@{db_host}:{db_port}/{db_name}"
@@ -96,9 +100,69 @@ def create_app():
     # Initialize plugins
     db.init_app(app)
 
+    # YouTube API setup
+
+    # youtube = build("youtube", "v3", developerKey=youtube_api_key)
+
+    # def search_trailers():
+    #     request = youtube.search().list(
+    #         q="horror movie trailer",
+    #         part="snippet",
+    #         type="video",
+    #         publishedAfter=f"{datetime.datetime.now().year}-01-01T00:00:00Z",
+    #         maxResults=50,
+    #     )
+    #     response = request.execute()
+
+    #     for item in response["items"]:
+    #         add_trailer(item)
+
+    # def add_trailer(item):
+    #     # Extracting necessary data from the item
+    #     title = item["snippet"]["title"]
+    #     url = f"https://www.youtube.com/watch?v={item['id']['videoId']}"
+
+    #     # Similar to add_the_witch, but for each trailer
+    #     db.session.rollback()
+
+    #     new_trailer = Trailer(url=url)  # Assuming Trailer model has a URL field
+    #     # Create a Trailer
+    #     # the_witch_trailer = Trailer(url="https://www.youtube.com/watch?v=iQXmlf3Sefg")
+    #     db.session.add(new_trailer)
+
+    #     # Commit the session to ensure 'youtube' and 'the_witch_trailer' have 'id' populated
+    #     db.session.commit()
+
+    #     # Create a PlatformTrailer association
+    #     # the_witch_platform_trailer = PlatformTrailer(
+    #     #     trailer_id=the_witch_trailer.id, platform_id=youtube.id
+    #     # )
+    #     # db.session.add(the_witch_platform_trailer)
+
+    #     # Create an instance of the Movie class with The Witch details
+    #     new_movieh = Movie(
+    #         title=title,
+    #     )
+
+    #     try:
+    #         db.session.add(new_movieh)
+    #         db.session.commit()
+    #         return jsonify(message="The Witch added successfully"), 201
+    #     except SQLAlchemyError as e:
+    #         db.session.rollback()
+    #         error_info = str(e.__dict__.get("orig", e))  # Safer access to 'orig'
+    #         return jsonify(error=error_info), 400
+
+    # Define routes
     @app.route("/")
     def hello_world():
         return "Hello, World! This is the home page."
+
+    # @app.route("/search_trailers", methods=["POST"])
+    # def trigger_search():
+    #     # Maybe include some authentication to protect this endpoint
+    #     search_trailers()
+    #     return jsonify({"message": "Search initiated"}), 200
 
     @app.route("/api/movies", methods=["GET"])
     def get_movies():
@@ -135,9 +199,7 @@ def create_app():
             db.session.add(youtube)
 
         # Create a Trailer
-        the_witch_trailer = Trailer(
-            url="https://www.youtube.com/watch?v=iQXmlf3Sefg666"
-        )
+        the_witch_trailer = Trailer(url="https://www.youtube.com/watch?v=iQXmlf3Sefg")
         db.session.add(the_witch_trailer)
 
         # Commit the session to ensure 'youtube' and 'the_witch_trailer' have 'id' populated
@@ -170,6 +232,25 @@ def create_app():
             db.session.rollback()
             error_info = str(e.__dict__.get("orig", e))  # Safer access to 'orig'
             return jsonify(error=error_info), 400
+
+    # @app.route("/add_movie", methods=["POST"])
+    # def add_movie():
+    #     # Getting movie data from the request body
+    #     movie_data = request.json
+
+    #     db.session.rollback()
+
+    #     # The rest remains largely the same, but use 'movie_data' to provide values
+    #     new_movie = Movie(
+    #         title=movie_data.get("title"),
+    #         director=movie_data.get("director"),
+    #         cast=movie_data.get("cast"),
+    #         release_date=movie_data.get("release_date"),
+    #         length=movie_data.get("length"),
+    #         rating=movie_data.get("rating"),
+    #         age_restriction=movie_data.get("age_restriction"),
+    #         summary=movie_data.get("summary"),
+    #     )
 
     return app
 
