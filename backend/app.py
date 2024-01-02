@@ -43,10 +43,14 @@ import datetime
 from flask import Flask, jsonify
 from sqlalchemy.exc import SQLAlchemyError
 from extensions import db
-from flask_cors import CORS
+from flask_cors import CORS  # pylint: disable=import-error
 from googleapiclient.errors import HttpError
 from googleapiclient.discovery import build
-from requests.exceptions import ConnectionError, Timeout, RequestException
+from requests.exceptions import (
+    ConnectionError as RequestsConnectionError,
+    Timeout,
+    RequestException,
+)
 
 # Import models to ensure they are registered with SQLAlchemy
 from models.database import Movie  # pylint: disable=unused-import
@@ -128,9 +132,9 @@ def create_app():
                 500,
             )
 
-        except ConnectionError:
+        except RequestsConnectionError as e:
             # Handle connection errors specifically
-            app.logger.error("Failed to connect to the server.")
+            app.logger.error("Connection failed: %s", e)
             return jsonify({"error": "Server connection failed"}), 500
         except Timeout:
             # Handle timeout errors specifically
