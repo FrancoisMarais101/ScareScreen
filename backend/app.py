@@ -46,7 +46,7 @@ from extensions import db
 from flask_cors import CORS
 from googleapiclient.errors import HttpError
 from googleapiclient.discovery import build
-
+from requests.exceptions import ConnectionError, Timeout, RequestException
 
 # Import models to ensure they are registered with SQLAlchemy
 from models.database import Movie  # pylint: disable=unused-import
@@ -127,10 +127,20 @@ def create_app():
                 jsonify({"error": "Failed to add trailers due to an HTTP error"}),
                 500,
             )
-        except Exception as e:  # Consider removing or handling more specific exceptions
-            print(f"An unexpected error occurred: {e}")
+
+        except ConnectionError:
+            # Handle connection errors specifically
+            app.logger.error("Failed to connect to the server.")
+            return jsonify({"error": "Server connection failed"}), 500
+        except Timeout:
+            # Handle timeout errors specifically
+            app.logger.error("The request to the server timed out.")
+            return jsonify({"error": "Server request timed out"}), 500
+        except RequestException as e:
+            # Handle other request-related errors
+            app.logger.error("An unexpected request error occurred: %s", e)
             return (
-                jsonify({"error": "Failed to add trailers due to an unexpected error"}),
+                jsonify({"error": "Failed to add trailers due to a request error"}),
                 500,
             )
 
