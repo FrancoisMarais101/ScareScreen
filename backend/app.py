@@ -39,25 +39,25 @@ Usage:
     ```
 """
 from os import environ
+import datetime
 from flask import Flask, jsonify
 from sqlalchemy.exc import SQLAlchemyError
 from extensions import db
 from flask_cors import CORS
+from googleapiclient.errors import HttpError
 from googleapiclient.discovery import build
-import datetime
+
 
 # Import models to ensure they are registered with SQLAlchemy
-from models.database import (
-    Movie,
-    Trailer,
-    StreamingPlatform,
-    PlatformTrailer,
-    User,
-    Review,
-    Recommendation,
-    Notification,
-    Watchlist,
-)  # pylint: disable=unused-import
+from models.database import Movie  # pylint: disable=unused-import
+from models.database import Trailer  # pylint: disable=unused-import
+from models.database import StreamingPlatform  # pylint: disable=unused-import
+from models.database import PlatformTrailer  # pylint: disable=unused-import
+from models.database import User  # pylint: disable=unused-import
+from models.database import Review  # pylint: disable=unused-import
+from models.database import Recommendation  # pylint: disable=unused-import
+from models.database import Notification  # pylint: disable=unused-import
+from models.database import Watchlist  # pylint: disable=unused-import
 
 
 def create_app():
@@ -108,7 +108,7 @@ def create_app():
             Response: A success or error response.
         """
         try:
-            request = youtube.search().list(
+            request = youtube.search().list(  # pylint: disable=no-member
                 q="horror movie trailer",
                 part="snippet",
                 type="video",
@@ -121,9 +121,18 @@ def create_app():
                 add_trailer(item)
 
             return jsonify({"message": "Trailers added successfully"}), 200
-        except Exception as e:
-            print(f"An error occurred: {e}")
-            return jsonify({"error": "Failed to add trailers"}), 500
+        except HttpError as e:
+            print(f"HTTP error occurred: {e}")
+            return (
+                jsonify({"error": "Failed to add trailers due to an HTTP error"}),
+                500,
+            )
+        except Exception as e:  # Consider removing or handling more specific exceptions
+            print(f"An unexpected error occurred: {e}")
+            return (
+                jsonify({"error": "Failed to add trailers due to an unexpected error"}),
+                500,
+            )
 
     def add_trailer(item):
         """
@@ -191,7 +200,9 @@ def create_app():
             ]
             return jsonify(movies_list), 200
         except SQLAlchemyError as e:
-            app.logger.error(f"Error fetching movies: {e}")
+            app.logger.error(
+                "Error fetching movies: %s", e
+            )  # Using %s for lazy formatting
             return jsonify(error="An error occurred fetching movies"), 500
 
     return app
