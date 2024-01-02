@@ -102,22 +102,20 @@ def create_app():
     # YouTube API setup
     youtube = build("youtube", "v3", developerKey=youtube_api_key)
 
-    @app.route("/search_trailers", methods=["POST"])
-    def search_trailers():
+    def search_trailers(movie_name):
         """
-        A route to fetch and add movie trailers from the YouTube API to the database.
+        A function to fetch and add movie trailers from the YouTube API to the database.
         Searches for trailers published in the current year and adds them to the database.
 
         Returns:
             Response: A success or error response.
         """
         try:
-            request = youtube.search().list(  # pylint: disable=no-member
-                q="horror movie trailer",
+            request = youtube.search().list(
+                q=f"{movie_name} trailer",
                 part="snippet",
                 type="video",
-                publishedAfter=f"{datetime.datetime.now().year}-01-01T00:00:00Z",
-                maxResults=50,
+                maxResults=1,  # Assuming you want only the most relevant result
             )
             response = request.execute()
 
@@ -177,6 +175,25 @@ def create_app():
             db.session.rollback()
             error_info = str(e.__dict__.get("orig", e))
             return jsonify(error=error_info), 400
+
+    @app.route("/trigger_search", methods=["POST"])
+    def trigger_search():
+        """
+        A route to trigger the search for movie trailers.
+
+        Returns:
+            Response: A success or error response.
+        """
+        # search_trailers()
+        movie_list = [
+            "The Witch",
+            "Hereditary",
+            "The Conjuring",
+        ]  # Replace with your list of movies
+        for movie in movie_list:
+            search_trailers(movie)
+
+        return jsonify({"message": "Search completed successfully"}), 200
 
     @app.route("/")
     def hello_world():

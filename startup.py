@@ -90,7 +90,7 @@ def main():
     wait_for_server(flask_url)
 
     # URL for the action to be taken, e.g., adding trailers
-    add_movie_url = f"{flask_url}/search_trailers"
+    add_movie_url = f"{flask_url}/trigger_search"
 
     # Make the POST request to take action
     result = add_movie(add_movie_url)
