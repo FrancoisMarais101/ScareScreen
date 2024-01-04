@@ -1,11 +1,35 @@
-<mxfile host="app.diagrams.net" modified="2024-01-04T19:03:22.601Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" etag="ZJY-Q5ui9ubZ9_4OzCDZ" version="22.1.16" type="github">
+<mxfile host="app.diagrams.net" modified="2024-01-04T19:10:01.244Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" etag="phBLyph9Br4125-V9Cpq" version="22.1.16" type="github">
   <diagram name="Page-1" id="FavIiO_On8jeepOU1Gb4">
     <mxGraphModel dx="1050" dy="522" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="EQATGkMoCbNwmrRgMAHa-1" value="trigger_search()" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;" vertex="1" parent="1">
-          <mxGeometry x="320" y="30" width="120" height="60" as="geometry" />
+        <mxCell id="EQATGkMoCbNwmrRgMAHa-1" value="/trigger_search&amp;nbsp;: trigger_search()" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;" vertex="1" parent="1">
+          <mxGeometry x="670" y="10" width="300" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="EQATGkMoCbNwmrRgMAHa-2" value="/ : hello_world()" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;" vertex="1" parent="1">
+          <mxGeometry x="10" y="10" width="300" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="EQATGkMoCbNwmrRgMAHa-4" value="/api/movies&amp;nbsp;:&amp;nbsp;get_movies&lt;span style=&quot;background-color: initial;&quot;&gt;()&lt;/span&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;" vertex="1" parent="1">
+          <mxGeometry x="340" y="10" width="300" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="EQATGkMoCbNwmrRgMAHa-5" value="jsonify(movies_list)" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;" vertex="1" parent="1">
+          <mxGeometry x="415" y="190" width="150" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="EQATGkMoCbNwmrRgMAHa-6" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="EQATGkMoCbNwmrRgMAHa-4" target="EQATGkMoCbNwmrRgMAHa-5">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="380" y="280" as="sourcePoint" />
+            <mxPoint x="430" y="230" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EQATGkMoCbNwmrRgMAHa-7" value="Hello, World! This is the home page." style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="85" y="212.5" width="150" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="EQATGkMoCbNwmrRgMAHa-8" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="EQATGkMoCbNwmrRgMAHa-2" target="EQATGkMoCbNwmrRgMAHa-7">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="380" y="270" as="sourcePoint" />
+            <mxPoint x="430" y="220" as="targetPoint" />
+          </mxGeometry>
         </mxCell>
       </root>
     </mxGraphModel>
