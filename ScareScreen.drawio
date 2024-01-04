@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2024-01-04T19:10:01.244Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" etag="phBLyph9Br4125-V9Cpq" version="22.1.16" type="github">
+<mxfile host="app.diagrams.net" modified="2024-01-04T19:13:12.949Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" etag="JZWKj_YASlG0UfQ3J4wo" version="22.1.16" type="github">
   <diagram name="Page-1" id="FavIiO_On8jeepOU1Gb4">
     <mxGraphModel dx="1050" dy="522" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -29,6 +29,39 @@
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="380" y="270" as="sourcePoint" />
             <mxPoint x="430" y="220" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EQATGkMoCbNwmrRgMAHa-9" value="TMDB API" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1180" y="80" width="300" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="EQATGkMoCbNwmrRgMAHa-10" value="Youtube API" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1180" y="310" width="300" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="EQATGkMoCbNwmrRgMAHa-11" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.07;entryY=0.4;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="EQATGkMoCbNwmrRgMAHa-1" target="EQATGkMoCbNwmrRgMAHa-9">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1030" y="270" as="sourcePoint" />
+            <mxPoint x="1080" y="220" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="895" y="150" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EQATGkMoCbNwmrRgMAHa-12" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.13;exitY=0.77;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="EQATGkMoCbNwmrRgMAHa-9" target="EQATGkMoCbNwmrRgMAHa-1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1030" y="270" as="sourcePoint" />
+            <mxPoint x="1080" y="220" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="820" y="220" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EQATGkMoCbNwmrRgMAHa-13" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.07;entryY=0.4;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.25;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="EQATGkMoCbNwmrRgMAHa-1" target="EQATGkMoCbNwmrRgMAHa-10">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="840" y="380" as="sourcePoint" />
+            <mxPoint x="1080" y="220" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="745" y="382" />
+            </Array>
           </mxGeometry>
         </mxCell>
       </root>
