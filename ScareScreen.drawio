@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2024-01-04T19:13:12.949Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" etag="JZWKj_YASlG0UfQ3J4wo" version="22.1.16" type="github">
+<mxfile host="app.diagrams.net" modified="2024-01-04T19:40:54.536Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" etag="jy_ozOlK5IF0qm8UzEWq" version="22.1.16" type="github">
   <diagram name="Page-1" id="FavIiO_On8jeepOU1Gb4">
     <mxGraphModel dx="1050" dy="522" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -63,6 +63,12 @@
               <mxPoint x="745" y="382" />
             </Array>
           </mxGeometry>
+        </mxCell>
+        <mxCell id="EQATGkMoCbNwmrRgMAHa-14" value="Master data (Title, poster URL, ec)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="1300" y="40" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="EQATGkMoCbNwmrRgMAHa-15" value="Trailer URL" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="1300" y="280" width="60" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
