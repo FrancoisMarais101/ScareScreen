@@ -51,6 +51,8 @@ class Movie(db.Model):
     length = db.Column(db.Integer)  # length in minutes
     rating = db.Column(db.Float)  # average rating
     age_restriction = db.Column(db.Integer)
+    trailer_url = db.Column(db.String(500), nullable=False)
+    poster_url = db.Column(db.String(500))
     summary = db.Column(db.String(1000))
 
     trailers = db.relationship("Trailer", back_populates="movie")

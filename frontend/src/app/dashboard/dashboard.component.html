@@ -1,15 +1,18 @@
 <!-- Path: ScareScreen/frontend/src/app/dashboard/dashboard.component.html -->
-<h1>Dashboard</h1>
+<h1></h1>
 <hr>
 <h3>Videos</h3>
 <hr>
 <div class="grid grid-pad">
-  <a *ngFor="let movie of movies" class="col-2-4">
-    <!-- <a href="{{video.url}}" target="_blank">
-      <img src="{{video.thumbnail}}" alt="{{video.name}}">
-    </a> -->
+  <div *ngFor="let movie of movies" class="col-2-4">
     <div class="module video">
-      <h3>{{ movie.title }}</h3>
+      <!-- Clickable image leading to the trailer -->
+      <a href="{{movie.trailer_url}}" target="_blank">
+        <!-- Image of the trailer -->
+        <img src="{{movie.poster_url}}" alt="Trailer for {{movie.title}}" style="width:100%;display:block;">
+        <!-- Title of the movie -->
+        <h3>{{ movie.title }}</h3>
+      </a>
     </div>
-  </a>
+  </div>
 </div>

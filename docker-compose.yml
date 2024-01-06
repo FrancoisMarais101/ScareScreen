@@ -21,7 +21,8 @@ services:
       - db_port=${db_port}
       - db_name=${db_name}
       - youtube_api_key=${youtube_api_key}
-      - GOOGLE_APPLICATION_CREDENTIALS=/tmp/credentials.json  # Set the environment variable
+      - GOOGLE_APPLICATION_CREDENTIALS=/tmp/credentials.json
+      - tmdb_api_key=${tmdb_api_key}
     networks:
       - app_network
     restart: unless-stopped

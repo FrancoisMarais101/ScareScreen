@@ -39,9 +39,6 @@ Usage:
     ```
 """
 from os import environ
-import requests
-import logging
-
 from flask import Flask, jsonify
 from sqlalchemy.exc import SQLAlchemyError
 from extensions import db
@@ -90,7 +87,6 @@ def create_app():
     db_port = environ.get("db_port")
     db_name = environ.get("db_name")
     youtube_api_key = environ.get("youtube_api_key")
-    tmdb_api_key = environ.get("tmdb_api_key")
 
     # Creating the SQLAlchemy engine
     database_url = f"postgresql://{db_user}:{db_pass}@{db_host}:{db_port}/{db_name}"
@@ -105,72 +101,27 @@ def create_app():
     # YouTube API setup
     youtube = build("youtube", "v3", developerKey=youtube_api_key)
 
-    @app.route("/trigger_search", methods=["POST"])
-    def trigger_search():
-        """
-        A route to trigger the search for movie trailers.
-        Fetches horror movie details from TMDB and then fetches trailers from YouTube.
-        Updates the Movie object with the fetched data.
-        """
+    def get_names():
+        # Define the base URL and your API key
+        base_url = "https://api.themoviedb.org/3"
+        api_key = "YOUR_API_KEY"
 
-        try:
-            tmdb_movies = fetch_horror_movies_from_tmdb()
+        # Define the Discover endpoint with the horror genre ID
+        endpoint = f"{base_url}/discover/movie?api_key={api_key}&with_genres=27"
 
-            if not tmdb_movies:  # Check if tmdb_movies is empty
-                logging.error("No movies fetched from TMDB.")
-                return jsonify({"error": "No movies fetched from TMDB."}), 500
+        # Make the request
+        response = requests.get(endpoint)
 
-            for movie_details in tmdb_movies:
-                # Fetch trailer"
-                cname = movie_details["title"]
-                poster = movie_details["poster_url"]
-                youtube_trailer_url = fetch_youtube_trailer(movie_details["title"])
-                movie_details["trailer_url"] = youtube_trailer_url
-
-                # Update Movie object here
-                msg = update_movie_object(movie_details)
-
-            return (
-                jsonify(
-                    {"message": "Search and update completed successfully: " + msg}
-                ),
-                200,
-            )
-
-        except Exception as e:
-            logging.exception("An error occurred: ")  # Log the exception with traceback
-            return jsonify({"error": str(e)}), 500
-
-    def fetch_horror_movies_from_tmdb():
-        """
-        Fetches horror movies from The Movie Database (TMDB).
-        Filters for specific fields and returns a list of movie details.
-        """
-
-        # Ensure tmdb_api_key is defined or imported elsewhere in your code
-        url = f"https://api.themoviedb.org/3/discover/movie?api_key={tmdb_api_key}&with_genres=27&page=1&year=2023&with_original_language=en"
-        response = requests.get(url)
-
-        movies = []
-
+        # Check if the request was successful
         if response.status_code == 200:
+            # Parse the response
             data = response.json()
-            for movie in data.get("results", []):  # Use .get to avoid KeyError
-                movies.append(
-                    {
-                        "id": movie["id"],
-                        "title": movie["title"],
-                        "poster_url": f"https://image.tmdb.org/t/p/original{movie['poster_path']}",
-                    }
-                )
-        else:
-            logging.error(
-                f"Failed to fetch movies, Status Code: {response.status_code}, Response: {response.text}"
-            )
+            for movie in data["results"]:
+                # Construct the full path for the poster image
+                poster_path = "https://image.tmdb.org/t/p/w500" + movie["poster_path"]
+                print(movie["title"], poster_path)
 
-        return movies
-
-    def fetch_youtube_trailer(movie_title):
+    def search_trailers(movie_name):
         """
         A function to fetch and add movie trailers from the YouTube API to the database.
         Searches for trailers published in the current year and adds them to the database.
@@ -180,28 +131,24 @@ def create_app():
         """
         try:
             request = youtube.search().list(
-                q=f"{movie_title} trailer",
+                q=f"{movie_name} trailer",
                 part="snippet",
                 type="video",
                 maxResults=1,  # Assuming you want only the most relevant result
             )
             response = request.execute()
 
-            first_video = response["items"][0]  # Access the first item in the list
-            video_id = first_video["id"]["videoId"]
-            url = f"https://www.youtube.com/watch?v={video_id}"
+            for item in response["items"]:
+                add_trailer(item)
 
-            # url = (
-            #     f"https://www.youtube.com/watch?v={response['items']['id']['videoId']}"
-            # )
-            return url
-
+            return jsonify({"message": "Trailers added successfully"}), 200
         except HttpError as e:
             print(f"HTTP error occurred: {e}")
             return (
                 jsonify({"error": "Failed to add trailers due to an HTTP error"}),
                 500,
             )
+
         except RequestsConnectionError as e:
             # Handle connection errors specifically
             app.logger.error("Connection failed: %s", e)
@@ -218,26 +165,54 @@ def create_app():
                 500,
             )
 
-    def update_movie_object(movie_details):
+    def add_trailer(item):
         """
-        Update or create a Movie object with the provided details, including the fetched trailer URL.
+        Helper function to add an individual trailer to the database.
+
+        Parameters:
+            item (dict): A single item from the YouTube API response containing trailer details.
+
+        Returns:
+            Response: A success status with the newly added movie or an error message.
         """
+        title = item["snippet"]["title"]
+        url = f"https://www.youtube.com/watch?v={item['id']['videoId']}"
 
-        return "heelo"
+        db.session.rollback()
+        new_trailer = Trailer(url=url)
+        db.session.add(new_trailer)
 
-        # Update Movie object here)
-        # db.session.rollback()
+        db.session.commit()
 
-        # new_movie = Movie(title=title, url=url)
+        new_movie = Movie(title=title, url=url)
 
-        # try:
-        #     db.session.add(new_movie)
-        #     db.session.commit()
-        #     return jsonify(message="The movies added successfully"), 201
-        # except SQLAlchemyError as e:
-        #     db.session.rollback()
-        #     error_info = str(e.__dict__.get("orig", e))
-        #     return jsonify(error=error_info), 400
+        try:
+            db.session.add(new_movie)
+            db.session.commit()
+            return jsonify(message="The movies added successfully"), 201
+        except SQLAlchemyError as e:
+            db.session.rollback()
+            error_info = str(e.__dict__.get("orig", e))
+            return jsonify(error=error_info), 400
+
+    @app.route("/trigger_search", methods=["POST"])
+    def trigger_search():
+        """
+        A route to trigger the search for movie trailers.
+
+        Returns:
+            Response: A success or error response.
+        """
+        # search_trailers()
+        movie_list = [
+            "The Witch",
+            "Hereditary",
+            "The Conjuring",
+        ]  # Replace with your list of movies
+        for movie in movie_list:
+            search_trailers(movie)
+
+        return jsonify({"message": "Search completed successfully"}), 200
 
     @app.route("/")
     def hello_world():
@@ -270,7 +245,7 @@ def create_app():
                     "rating": movie.rating,
                     "age_restriction": movie.age_restriction,
                     "summary": movie.summary,
-                    "trailer_url": movie.url,
+                    "url": movie.url,
                 }
                 for movie in movies
             ]

@@ -8,4 +8,6 @@ export interface Movie {
   release_date: string; // or Date if you wish to convert the string to a Date object
   summary: string;
   title: string;
+  trailer_url: string;
+  poster_url: string;
 }
